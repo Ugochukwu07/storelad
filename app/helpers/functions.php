@@ -10,7 +10,20 @@ class AddApp{
     public function models($fileName){
         include(ROOT_PATH . '/app/models/' . $fileName);
     }
-    public function helpers($fileName){
-        include(ROOT_PATH . '/app/helpers/' . $fileName);
+    public function helpers($fileNames){
+        foreach($fileNames as $fileName){
+            include(ROOT_PATH . '/app/helpers/' . $fileName);
+        }
+    }
+    public function database($fileName){
+        include(ROOT_PATH . '/app/database/' . $fileName);
+    }
+}
+
+class others{
+    public function definer($data) {
+        foreach ($data as $key => $value) {
+            define($key, $value);
+        }
     }
 }

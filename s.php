@@ -1,8 +1,9 @@
 <?php
 include('path.php');
+AddApp::helpers(['store/path.php']);
 //$_SESSION['store']['about'] = 1;
 if(isset($_GET['store'])){
-    if(isset($_SESSION['store']['about'])){
+    if(isset($_GET['page']) && $_GET['page'] === 'about'){
         include(ROOT_PATH . '/store/about.php');
         unset($_SESSION['store']['about']);
     }elseif(isset($_SESSION['store']['about'])){

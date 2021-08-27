@@ -1154,11 +1154,17 @@ body.stretched #header.full-header .container {
 
 #primary-menu > ul > li:first-child { margin-left: 0; }
 
-#primary-menu ul li > a {
+#primary-menu ul li > form input {
+	outline: none;
+	background-color: transparent;
+	border: none;
+}
+
+#primary-menu ul li > a, #primary-menu ul li > form input {
 	display: block;
 	line-height: 22px;
 	padding: 39px 15px;
-	color: #444;
+	color: #444 !important;
 	font-weight: bold;
 	font-size: 13px;
 	letter-spacing: 1px;

@@ -3,15 +3,15 @@
 class DataBase {
     private $conn;
 
-    public function __construct($host, $user, $pass, $db_name){
-        $this->conn = new mySQLi($host, $user, $pass, $db_name);
+    public function __construct($host, $user, $pass, $dbName){
+        $this->conn = new mySQLi($host, $user, $pass, $dbName);
         if($this->conn->connect_error){
-            die('Database Connection Erorr: ' . $this->conn->connect_error );
+            die('Database Connection Error: ' . $this->conn->connect_error );
         }
     }
 
-    private function executeQurey($sql, $data) {$this->dd($conn);
-        $stmt = $conn->prepare($sql);
+    private function executeQuery($sql, $data) {
+        $stmt = $this->conn->prepare($sql);
         $value = array_values($data);
         $type = str_repeat('s', count($value));
         $stmt->bind_param($type, ...$value);
@@ -59,7 +59,7 @@ class DataBase {
         }else{
             $sql =  $sql . " ORDER BY created_at DESC";
         }
-        $stmt = $this->executeQurey($sql, $conditions);
+        $stmt = $this->executeQuery($sql, $conditions);
         $records = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
         return $records;
     }
@@ -97,7 +97,7 @@ class DataBase {
         }else{
             $sql =  $sql . " ORDER BY created_at DESC LIMIT $start, $rpp";
         }
-        $stmt = $this->executeQurey($sql, $conditions);
+        $stmt = $this->executeQuery($sql, $conditions);
         $records = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
         return $records;
     }
@@ -115,7 +115,7 @@ class DataBase {
             $i++;
         }
         $sql = $sql . " LIMIT 1";
-        $stmt = $this->executeQurey($sql, $conditions);
+        $stmt = $this->executeQuery($sql, $conditions);
         $records = $stmt->get_result()->fetch_assoc();
         return $records;       
     }
@@ -131,7 +131,7 @@ class DataBase {
             }
             $i++;   
         }
-        $stmt = $this->executeQurey($sql, $data);
+        $stmt = $this->executeQuery($sql, $data);
         $id = $stmt->insert_id;
         return $id;
     }
@@ -149,7 +149,7 @@ class DataBase {
         }
         $sql = $sql . " WHERE id=?";
         $data['id'] = $id;
-        $stmt = $this->executeQurey($sql, $data);
+        $stmt = $this->executeQuery($sql, $data);
         $id = $stmt->insert_id;
         return $id;
     }
@@ -157,7 +157,7 @@ class DataBase {
     public function delete($table, $id) {
         $sql = "DELETE FROM $table WHERE id=?";
             
-        $stmt = $this->executeQurey($sql, ['id' => $id]);
+        $stmt = $this->executeQuery($sql, ['id' => $id]);
         return $stmt->affected_rows;
     }
         
@@ -179,7 +179,7 @@ class DataBase {
                 $i++;
             }
         }
-        $stmt = $this->executeQurey($sql, $conditions);
+        $stmt = $this->executeQuery($sql, $conditions);
         $result = $stmt->get_result()->fetch_assoc();
         return $result['total'];
     }
@@ -202,29 +202,26 @@ class DataBase {
                 $i++;
             }
         }
-        $stmt = $this->executeQurey($sql, $conditions);
+        $stmt = $this->executeQuery($sql, $conditions);
         $result = $stmt->get_result()->fetch_assoc();
         return $result['total'];
     }
         
         function search($term) {
-            global $conn;
-        
             $match = '%' . $term . '%';
             $sql = "SELECT p.*, u.firstname FROM posts AS p JOIN users AS u 
             ON p.user_id=u.id WHERE p.title LIKE ? OR p.body LIKE ?";
-            $stmt = executeQurey($sql, ['title' => $match, 'body' => $match]);
+            $stmt = $this->executeQuery($sql, ['title' => $match, 'body' => $match]);
             $records = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
             return $records;
         }
+
         function searchLimts($term, $s, $rpp) {
-            global $conn;
-        
             $match = '%' . $term . '%';
             $sql = "SELECT p.*, u.firstname FROM posts AS p JOIN users AS u 
                     ON p.user_id=u.id WHERE p.title LIKE ? OR p.body LIKE ? ORDER BY p.id DESC LIMIT $s, $rpp";
         
-            $stmt = executeQurey($sql, ['title' => $match, 'body' => $match]);
+            $stmt = $this->executeQuery($sql, ['title' => $match, 'body' => $match]);
             $records = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
             
             return $records;
@@ -274,7 +271,7 @@ class DataBase {
         }else{
             $sql =  $sql . " ORDER BY created_at DESC";
         }
-        $stmt = $this->executeQurey($sql, $conditions);
+        $stmt = $this->executeQuery($sql, $conditions);
         $records = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
         return $records;
     }
@@ -302,7 +299,7 @@ class DataBase {
             $i++;
         }
         $sql = $sql . " LIMIT 1";
-        $stmt = $this->executeQurey($sql, $conditions);
+        $stmt = $this->executeQuery($sql, $conditions);
         $records = $stmt->get_result()->fetch_assoc();
         return $records;
     }
@@ -372,12 +369,14 @@ class DataBase {
         }else{
             $sql =  $sql . " ORDER BY $orderTable.created_at DESC";
         }
-        $stmt = $conn->prepare($sql);
+        $stmt = $this->conn->prepare($sql);
         $stmt->execute();
         $records = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
         return $records;
     }
 }
 
-$call = new DataBase('localhost', 'root', '', 'mazzy_dap');
-$call->dd($call->selectAll('products'));
+include __DIR__ . '/data.php';
+//DataBase::dd($data);
+
+//$call = new DataBase('localhost', 'root', '', 'mazzy_dap');

@@ -16,10 +16,15 @@
 					<!-- Primary Navigation ============================================= -->
 					<nav id="primary-menu" class="dark">
 						<ul>
-							<li <?php if($page === 'home'):?> class="current"<?php endif;?>><a href="<?php echo BASE_URL . '/'; ?>"><div>Home</div></a></li>
-							<li <?php if($page === 'about'):?> class="current"<?php endif;?>><a href="<?php echo BASE_URL . '/about'; ?>"><div>About</div></a></li>
-							<li <?php if($page === 'services'):?> class="current"<?php endif;?>><a href="<?php echo BASE_URL . '/services'; ?>"><div>Services</div></a></li>
-							<li <?php if($page === 'blog'):?> class="current"<?php endif;?>><a href="<?php echo BASE_URL . '/blog/'; ?>"><div>Blog</div></a></li>
+							<li <?php if($page === 'about'):?> class="current"<?php endif;?>>
+								<a href="<?php echo STORE_URL . '/about'; ?>"><div>About</div></a>
+							</li>
+							<li <?php if($page === 'services'):?> class="current"<?php endif;?>>
+								<a href="<?php echo STORE_URL . '/contact'; ?>"><div>Contact</div></a>
+							</li>
+							<li <?php if($page === 'blog'):?> class="current"<?php endif;?>>
+								<a href="<?php echo BASE_URL . '/blog/'; ?>"><div>Blog</div></a>
+							</li>
 							<li <?php if($page === 'accounts'):?> class="current"<?php endif;?>><a href="<?php echo BASE_URL . '/accounts'; ?>"><div>Login/Sign Up</div></a></li>
 							<li <?php if($page === 'stores'):?> class="current"<?php endif;?>><a href="<?php echo BASE_URL . '/stores'; ?>"><div>Stores</div></a></li>
 						</ul>

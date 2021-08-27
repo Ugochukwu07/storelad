@@ -30,4 +30,3 @@ if($LOCAL){
 }
 
 include(ROOT_PATH . '/app/helpers/functions.php');
-$addApp = new AddApp();

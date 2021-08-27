@@ -1,10 +1,13 @@
 <?php 
-include('path.php');
+
+AddApp::controllers('store.php');
+//Database::dd($_SERVER);
+//Database::dd(STORE_URL);
 $page = 'store';
 ?>
 <!DOCTYPE html>
 <html dir="ltr" lang="en-US">
-<?php $addApp->includes('open/links_top.php', 'StoreNmame'); ?>
+<?php AddApp::includes('open/links_top.php', 'StoreNmame'); ?>
 
 <body class="stretched">
 
@@ -14,7 +17,7 @@ $page = 'store';
 
 		<!-- Header
 		============================================= -->
-		<?php $addApp->includes('store/header.php', '', $page); ?>
+		<?php AddApp::includes('store/header.php', '', $page); ?>
         <!-- #header end -->
 
 		<!-- Page Title
@@ -788,18 +791,7 @@ $page = 'store';
 
 	</div><!-- #wrapper end -->
 
-	<!-- Go To Top
-	============================================= -->
-	<div id="gotoTop" class="icon-angle-up"></div>
-
-	<!-- External JavaScripts
-	============================================= -->
-	<script src="js/jquery.js"></script>
-	<script src="js/plugins.js"></script>
-
-	<!-- Footer Scripts
-	============================================= -->
-	<script src="js/functions.js"></script>
+	<?php AddApp::includes('open/links_bottom.php'); ?>
 
 </body>
 </html>
